@@ -1,0 +1,40 @@
+---
+- name: Despliegue Automatizado DevSecOps de Agente Wazuh con Buffer de Retencion
+  hosts: windows
+  gather_facts: no
+
+  tasks:
+    - name: 1. Crear directorio temporal para la instalacion
+      win_file:
+        path: 'C:\temp'
+        state: directory
+
+    - name: 2. Descargar instalador MSI oficial de Wazuh Agent
+      win_get_url:
+        url: 'https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.2-1.msi'
+        dest: 'C:\temp\wazuh-agent.msi'
+
+    - name: 3. Ejecutar instalacion silenciosa y registrar con el Manager
+      win_package:
+        path: 'C:\temp\wazuh-agent.msi'
+        arguments: 'WAZUH_MANAGER="192.168.100.50" WAZUH_REGISTRATION_SERVER="192.168.100.50" /q'
+        state: present
+
+    - name: 4. Configurar Buffer (client_buffer) modificando el XML de forma segura
+      win_shell: |
+        $confPath = 'C:\Program Files (x86)\ossec-agent\ossec.conf'
+        [xml]$xml = Get-Content $confPath
+        $xml.ossec_config.client_buffer.queue_size = "100000"
+        $xml.ossec_config.client_buffer.events_per_second = "500"
+        $xml.Save($confPath)
+
+    - name: 5. Asegurar que el servicio Wazuh este iniciado y en ejecucion automatica
+      win_service:
+        name: Wazuh
+        start_mode: auto
+        state: started
+
+    - name: 6. Limpiar archivos temporales de instalacion
+      win_file:
+        path: 'C:\temp\wazuh-agent.msi'
+        state: absent
