@@ -31,6 +31,9 @@ Antes de ejecutar este proyecto, asegúrese de cumplir con los siguientes requer
 El repositorio está organizado de la siguiente manera:
 
 ```text
+├── 📂 network/
+│   ├── 📄 bogota_core.rsc          # Configuración del MikroTik Central (Bogotá)
+│   └── 📄 cucuta_edge.rsc          # Configuración del MikroTik de la Sucursal (Cúcuta)
 ├── 📂 scripts/
 │   ├── 📄 bootstrap-win11.ps1       # Configura WinRM y Firewall en el Endpoint Windows
 │   └── 📄 install-ansible-ubuntu.sh # Automatiza la instalación de Ansible y dependencias
@@ -40,4 +43,5 @@ El repositorio está organizado de la siguiente manera:
 │   └── 📄 simulacion_corte_20k.ps1   # Inyector de estrés (20,000 logs) con disparador de corte de WAN
 ├── 📄 hosts.ini                      # Inventario de Ansible con credenciales y variables WinRM
 ├── 📄 instalar_agente.yml            # Playbook principal de despliegue DevSecOps y tuning del búfer
+├── 📄 DEPLOYMENT.md
 └── 📄 README.md                      # Documentación del proyecto
