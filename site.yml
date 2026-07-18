@@ -1,6 +1,0 @@
----
-- name: Desplegar e Inscribir Agentes Wazuh de Forma Resiliente
-  hosts: agentes
-  become: yes
-  roles:
-    - wazuh-agent
