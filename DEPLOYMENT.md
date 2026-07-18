@@ -1,0 +1,13 @@
+# 📖 Guía de Despliegue y Verificación Operativa
+
+Esta guía técnica detalla los pasos cronológicos para verificar la conectividad remota y ejecutar el aprovisionamiento automatizado del agente Wazuh desde el Nodo de Control (Ubuntu Server) hacia el Endpoint (Windows 11).
+
+---
+
+## 🔍 Paso 1: Verificación de Conectividad WinRM (`win_ping`)
+
+Antes de iniciar el aprovisionamiento, es obligatorio validar que el canal de comunicación remota cifrada por WinRM, las llaves de acceso y las reglas de Firewall estén operativas a través del túnel SD-WAN.
+
+### Comando de ejecución en Ubuntu:
+```bash
+ansible windows -i hosts.ini -m win_ping
