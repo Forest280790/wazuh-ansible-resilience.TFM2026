@@ -43,13 +43,11 @@ add allowed-address=10.200.200.2/32 client-allowed-address=::/0 comment="equipo 
 add allowed-address=10.0.99.2/32,192.168.200.0/24,192.168.201.0/24 comment="TFM: Sucursal Cucuta" interface=wg-to-cucuta name=peer2 public-key="<LLAVE_PUBLICA_CUCUTA_EDGE_SAMPLE=>"
 add allowed-address=10.0.99.6/32,192.168.210.0/24,192.168.211.0/24 comment="TFM: Sucursal 2" endpoint-address=181.49.X.X endpoint-port=51820 interface=wg-to-cucuta name=peer-S2 public-key="<LLAVE_PUBLICA_SUCURSAL2_SAMPLE=>"
 /ip address
-add address=186.155.200.60/27 interface=ether1-WAN network=186.155.200.32
+add address=200.40.30.60/27 interface=ether1-WAN network=200.40.30.32
 add address=192.168.100.1/24 interface=bridge-LAN network=192.168.100.0
 add address=10.200.200.1/24 interface=wg1-configuracion network=10.200.200.0
 add address=10.0.99.1/30 interface=wg-to-cucuta network=10.0.99.0
 add address=10.0.99.5/30 interface=wg-to-cucuta network=10.0.99.4
-/ip dhcp-client
-# Nota: La interfaz remanente dinámica (*C) ha sido omitida para evitar errores de sintaxis en el despliegue lógico.
 /ip dhcp-server lease
 add address=192.168.100.50 client-id=ff:56:50:4d:98:0:2:0:0:ab:11:2c:aa:9a:ad:bf:a0:b7:72 mac-address=D8:9E:F3:05:AA:BB server=dhcp-LAN
 /ip dhcp-server network
@@ -74,19 +72,19 @@ add action=accept chain=forward comment="Permitir Port Forwarding" connection-na
 add action=drop chain=forward comment="Drop ataques a la LAN" connection-state=new in-interface=ether1-WAN
 /ip firewall nat
 add action=masquerade chain=srcnat comment="TFM: Salida a internet para la LAN" out-interface=ether1-WAN
-add action=dst-nat chain=dstnat comment="TFM: Trafico HTTPS Web (443)" dst-address=186.155.200.60 dst-port=443 protocol=tcp to-addresses=192.168.100.10 to-ports=443
-add action=dst-nat chain=dstnat comment="TEST: Log CWP" dst-address=186.155.200.60 dst-port=2030 log=yes log-prefix="-> INTENTO_CWP" protocol=tcp to-addresses=192.168.100.10 to-ports=2030
-add action=dst-nat chain=dstnat comment="CWP HTTP Seguro" dst-address=186.155.200.60 dst-port=2030 protocol=tcp to-addresses=192.168.100.10 to-ports=2030
-add action=dst-nat chain=dstnat comment="CWP HTTPS Seguro" dst-address=186.155.200.60 dst-port=2031 protocol=tcp to-addresses=192.168.100.10 to-ports=2031
-add action=dst-nat chain=dstnat comment="TFM: Puertos TCP IN (Parte 1)" dst-address=186.155.200.60 dst-port=20,21,25,53,80,110,143,443,465,587 protocol=tcp to-addresses=192.168.100.10
-add action=dst-nat chain=dstnat comment="TFM: Puertos TCP IN (Parte 2)" dst-address=186.155.200.60 dst-port=853,993,995,2030,2031,2082,2083 protocol=tcp to-addresses=192.168.100.10
-add action=dst-nat chain=dstnat comment="TFM: Puertos TCP IN (Parte 3)" dst-address=186.155.200.60 dst-port=2086,2087,2095,2096 protocol=tcp to-addresses=192.168.100.10
-add action=dst-nat chain=dstnat comment="TFM: Puertos UDP IN" dst-address=186.155.200.60 dst-port=20,21,53,80,443,853 protocol=udp to-addresses=192.168.100.10
+add action=dst-nat chain=dstnat comment="TFM: Trafico HTTPS Web (443)" dst-address=200.40.30.60 dst-port=443 protocol=tcp to-addresses=192.168.100.10 to-ports=443
+add action=dst-nat chain=dstnat comment="TEST: Log CWP" dst-address=200.40.30.60 dst-port=2030 log=yes log-prefix="-> INTENTO_CWP" protocol=tcp to-addresses=192.168.100.10 to-ports=2030
+add action=dst-nat chain=dstnat comment="CWP HTTP Seguro" dst-address=200.40.30.60 dst-port=2030 protocol=tcp to-addresses=192.168.100.10 to-ports=2030
+add action=dst-nat chain=dstnat comment="CWP HTTPS Seguro" dst-address=200.40.30.60 dst-port=2031 protocol=tcp to-addresses=192.168.100.10 to-ports=2031
+add action=dst-nat chain=dstnat comment="TFM: Puertos TCP IN (Parte 1)" dst-address=200.40.30.60 dst-port=20,21,25,53,80,110,143,443,465,587 protocol=tcp to-addresses=192.168.100.10
+add action=dst-nat chain=dstnat comment="TFM: Puertos TCP IN (Parte 2)" dst-address=200.40.30.60 dst-port=853,993,995,2030,2031,2082,2083 protocol=tcp to-addresses=192.168.100.10
+add action=dst-nat chain=dstnat comment="TFM: Puertos TCP IN (Parte 3)" dst-address=200.40.30.60 dst-port=2086,2087,2095,2096 protocol=tcp to-addresses=192.168.100.10
+add action=dst-nat chain=dstnat comment="TFM: Puertos UDP IN" dst-address=200.40.30.60 dst-port=20,21,53,80,443,853 protocol=udp to-addresses=192.168.100.10
 add action=dst-nat chain=dstnat dst-port=5201 protocol=tcp to-addresses=192.168.100.10 to-ports=5201
 add action=dst-nat chain=dstnat dst-port=5201 protocol=udp to-addresses=192.168.100.10 to-ports=5201
 add action=dst-nat chain=dstnat in-interface=ether1-WAN protocol=icmp to-addresses=192.168.100.10
 /ip route
-add comment="TFM: Salida a Internet" distance=1 gateway=186.155.200.33
+add comment="TFM: Salida a Internet" distance=1 gateway=200.40.30.33
 add comment="TFM: Ruta hacia LAN Cucuta" dst-address=192.168.200.0/24 gateway=wg-to-cucuta
 add comment="TFM: Ruta hacia DMZ Cucuta" dst-address=192.168.201.0/24 gateway=wg-to-cucuta
 add comment="TFM: Ruta hacia LAN S2" dst-address=192.168.210.0/24 gateway=wg-to-cucuta
